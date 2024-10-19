@@ -1,0 +1,63 @@
+[gd_scene load_steps=9 format=3 uid="uid://b5jn7s3ma1b2t"]
+
+[ext_resource type="Script" path="res://levels/level_4_updates.gd" id="1_mwvc0"]
+[ext_resource type="PackedScene" uid="uid://bnovupptegl5q" path="res://components/parallax_background.tscn" id="2_10xiy"]
+[ext_resource type="PackedScene" uid="uid://27epvltcoh7" path="res://components/gui.tscn" id="3_hdess"]
+[ext_resource type="PackedScene" uid="uid://chye2alwyn5fo" path="res://player/player.tscn" id="4_ufba4"]
+[ext_resource type="PackedScene" uid="uid://bmg76ibba46cw" path="res://enemy/enemies/piercer.tscn" id="5_hj472"]
+[ext_resource type="AudioStream" uid="uid://dw7fim6j1mqww" path="res://sfx/asteroid_explode.wav" id="6_jtlm6"]
+[ext_resource type="AudioStream" uid="uid://b1uy600lyldjm" path="res://sfx/ship_explode.wav" id="7_l5vmu"]
+
+[sub_resource type="Environment" id="Environment_wg7ja"]
+background_mode = 3
+glow_enabled = true
+glow_levels/1 = 1.0
+glow_levels/2 = 1.0
+glow_levels/3 = 0.0
+glow_levels/4 = 0.1
+glow_levels/5 = 0.0
+glow_normalized = true
+glow_intensity = 0.7
+glow_strength = 0.8
+glow_blend_mode = 1
+glow_hdr_threshold = 1.1
+
+[node name="Level4Updates" type="Node2D"]
+script = ExtResource("1_mwvc0")
+level = 4
+level_name = "Updates"
+
+[node name="ParallaxBackground" parent="." instance=ExtResource("2_10xiy")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_wg7ja")
+
+[node name="GUI" parent="." instance=ExtResource("3_hdess")]
+
+[node name="Player" parent="." instance=ExtResource("4_ufba4")]
+
+[node name="Piercer" parent="." instance=ExtResource("5_hj472")]
+position = Vector2(10861, 9763)
+
+[node name="EnemySpawn" type="Timer" parent="."]
+wait_time = 30.0
+autostart = true
+
+[node name="AsteroidSpawn" type="Timer" parent="."]
+wait_time = 30.0
+autostart = true
+
+[node name="PowerupSpawn" type="Timer" parent="."]
+wait_time = 15.0
+autostart = true
+
+[node name="ExplodeAsteroid" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_jtlm6")
+
+[node name="ExplodeShip" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_l5vmu")
+volume_db = -5.0
+
+[connection signal="timeout" from="EnemySpawn" to="." method="_on_enemy_spawn_timeout"]
+[connection signal="timeout" from="AsteroidSpawn" to="." method="_asteroid_create_periodic"]
+[connection signal="timeout" from="PowerupSpawn" to="." method="_spawn_periodic"]

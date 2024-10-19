@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3k5eq8uncb45"]
+
+[ext_resource type="Script" path="res://levels/level_2_ai.gd" id="1_6io2f"]
+[ext_resource type="PackedScene" uid="uid://chye2alwyn5fo" path="res://player/player.tscn" id="1_w6mqv"]
+[ext_resource type="PackedScene" uid="uid://bnovupptegl5q" path="res://components/parallax_background.tscn" id="2_jqh51"]
+[ext_resource type="PackedScene" uid="uid://d08uwni07obsl" path="res://enemy/enemy.tscn" id="3_nq8wp"]
+
+[node name="Level2AI" type="Node2D"]
+script = ExtResource("1_6io2f")
+level = 2
+level_name = "AI"
+
+[node name="ParallaxBackground" parent="." instance=ExtResource("2_jqh51")]
+
+[node name="Enemy" parent="." instance=ExtResource("3_nq8wp")]
+position = Vector2(-162, 240)
+
+[node name="Player" parent="." instance=ExtResource("1_w6mqv")]
+unique_name_in_owner = true

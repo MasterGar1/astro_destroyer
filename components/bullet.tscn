@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://dg0o7ev2s38k3"]
+
+[ext_resource type="Script" path="res://components/bullet.gd" id="1_2h4y8"]
+[ext_resource type="Texture2D" uid="uid://ct6uvfbhlfybx" path="res://icon.svg" id="1_h601l"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_poc6q"]
+
+[node name="Bullet" type="Area2D"]
+collision_layer = 8
+collision_mask = 6
+script = ExtResource("1_2h4y8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(2, 2, 2, 1)
+scale = Vector2(0.140625, 0.25)
+texture = ExtResource("1_h601l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_poc6q")
+debug_color = Color(0.969726, 0, 0.459458, 0.42)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+self_modulate = Color(2, 2, 2, 1)
+emitting = false
+amount = 15
+preprocess = 0.3
+local_coords = true
+emission_shape = 1
+emission_sphere_radius = 4.0
+gravity = Vector2(0, 100)
+radial_accel_min = 15.0
+radial_accel_max = 30.0
+angle_min = -20.0
+angle_max = 20.0
+scale_amount_max = 3.0

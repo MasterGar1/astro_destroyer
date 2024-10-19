@@ -1,0 +1,193 @@
+[gd_scene load_steps=17 format=3 uid="uid://chye2alwyn5fo"]
+
+[ext_resource type="Texture2D" uid="uid://ct6uvfbhlfybx" path="res://icon.svg" id="1_er8ns"]
+[ext_resource type="Script" path="res://player/player.gd" id="1_rw46l"]
+[ext_resource type="PackedScene" uid="uid://d1syu1ftcjrhk" path="res://components/hurtbox.tscn" id="3_bfgcu"]
+[ext_resource type="Script" path="res://player/camera_2d.gd" id="4_3nxfo"]
+[ext_resource type="Script" path="res://components/auto_aimer.gd" id="4_mrhn2"]
+[ext_resource type="AudioStream" uid="uid://bokc6r5rrw8d6" path="res://sfx/shoot.wav" id="6_1181x"]
+[ext_resource type="AudioStream" uid="uid://btglaaq0q2bi" path="res://sfx/hurt.wav" id="7_lbugc"]
+[ext_resource type="AudioStream" uid="uid://ri5gmb5vp1b" path="res://sfx/powerup.wav" id="8_lijby"]
+
+[sub_resource type="Curve" id="Curve_m82x3"]
+_data = [Vector2(0.00255102, 0.98728), 0.0, 0.0, 0, 0, Vector2(1, 0.497554), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_58olv"]
+colors = PackedColorArray(0, 0.0858765, 0.785156, 1, 0, 0.953125, 1, 1)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7jwlh"]
+radius = 24.0
+height = 62.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lmv6j"]
+radius = 31.0
+height = 88.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vg06f"]
+radius = 50.0
+height = 600.0
+
+[sub_resource type="Animation" id="Animation_gg75f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_jow5r"]
+resource_name = "take_damage"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hurt")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kvd83"]
+_data = {
+"RESET": SubResource("Animation_gg75f"),
+"take_damage": SubResource("Animation_jow5r")
+}
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_mask = 6
+script = ExtResource("1_rw46l")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.40625, 0.578125)
+texture = ExtResource("1_er8ns")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+show_behind_parent = true
+position = Vector2(0, 46)
+emitting = false
+amount = 50
+emission_shape = 1
+emission_sphere_radius = 16.0
+spread = 90.0
+gravity = Vector2(0, 50)
+angular_velocity_min = -30.0
+angular_velocity_max = 30.0
+radial_accel_min = 30.0
+radial_accel_max = 60.0
+damping_min = 2.0
+damping_max = 10.0
+angle_min = -45.0
+angle_max = 45.0
+scale_amount_min = 6.0
+scale_amount_max = 8.0
+scale_amount_curve = SubResource("Curve_m82x3")
+color_ramp = SubResource("Gradient_58olv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_7jwlh")
+debug_color = Color(0.865173, 0.00058219, 0.86261, 0.42)
+
+[node name="Hurtbox" parent="." instance=ExtResource("3_bfgcu")]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource("CapsuleShape2D_lmv6j")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_speed = 10.0
+rotation_smoothing_speed = 50.0
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_left_margin = 0.5
+drag_top_margin = 0.5
+drag_right_margin = 0.5
+drag_bottom_margin = 0.5
+editor_draw_drag_margin = true
+script = ExtResource("4_3nxfo")
+
+[node name="AutoAimer" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("4_mrhn2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AutoAimer"]
+position = Vector2(0, -300)
+shape = SubResource("CapsuleShape2D_vg06f")
+debug_color = Color(0.35, 0.490833, 1, 0.254902)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_kvd83")
+}
+
+[node name="Shoot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_1181x")
+
+[node name="Hurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_lbugc")
+
+[node name="Powerup" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_lijby")
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="body_entered" from="AutoAimer" to="AutoAimer" method="_on_body_entered"]
+[connection signal="body_exited" from="AutoAimer" to="AutoAimer" method="_on_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+
+[editable path="Hurtbox"]

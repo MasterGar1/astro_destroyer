@@ -1,0 +1,9 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cdlsowkldtaqy"]
+
+[ext_resource type="FontFile" uid="uid://415dwisbgeju" path="res://components/Space Retro.ttf" id="1_j7v8l"]
+
+[resource]
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 2
+Label/font_sizes/font_size = 48
+Label/fonts/font = ExtResource("1_j7v8l")

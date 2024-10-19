@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://voyq81omoqiv"]
+
+[ext_resource type="Script" path="res://player/powerups/power_up.gd" id="1_b6wl2"]
+[ext_resource type="Texture2D" uid="uid://dfq8tomr642da" path="res://textures/powerup.png" id="1_metlg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_farit"]
+radius = 62.0081
+
+[node name="PowerUP" type="Node2D"]
+script = ExtResource("1_b6wl2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(2, 2, 2, 1)
+position = Vector2(0, -10)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_metlg")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_farit")
+debug_color = Color(0.96875, 1, 0, 0.42)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

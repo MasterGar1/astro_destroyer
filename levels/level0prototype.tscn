@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://ci4r616wasp6d"]
+
+[ext_resource type="PackedScene" uid="uid://chye2alwyn5fo" path="res://player/player.tscn" id="1_08054"]
+[ext_resource type="Script" path="res://levels/level_0_prototype.gd" id="1_bp6tw"]
+[ext_resource type="PackedScene" uid="uid://dpfqfcpiu1jte" path="res://asteroid/asteroid.tscn" id="2_kvet1"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_bp6tw")
+level_name = "Prototype"
+
+[node name="Player" parent="." instance=ExtResource("1_08054")]
+
+[node name="Asteroid" parent="." instance=ExtResource("2_kvet1")]
+position = Vector2(483, -131)
+
+[node name="Asteroid2" parent="." instance=ExtResource("2_kvet1")]
+position = Vector2(-478, -138)
+
+[node name="Asteroid3" parent="." instance=ExtResource("2_kvet1")]
+position = Vector2(-190, 207)
+
+[node name="Asteroid4" parent="." instance=ExtResource("2_kvet1")]
+position = Vector2(-152, -269)
+
+[node name="Asteroid5" parent="." instance=ExtResource("2_kvet1")]
+position = Vector2(332, -418)
+
+[node name="Asteroid6" parent="." instance=ExtResource("2_kvet1")]
+position = Vector2(956, 317)
+
+[node name="Asteroid7" parent="." instance=ExtResource("2_kvet1")]
+position = Vector2(-775, 406)
+
+[node name="Asteroid8" parent="." instance=ExtResource("2_kvet1")]
+position = Vector2(-747, -399)

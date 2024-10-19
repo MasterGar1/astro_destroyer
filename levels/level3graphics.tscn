@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://bc2161mss4f0r"]
+
+[ext_resource type="Script" path="res://levels/level_3_graphics.gd" id="1_dyf42"]
+[ext_resource type="PackedScene" uid="uid://bnovupptegl5q" path="res://components/parallax_background.tscn" id="2_eccph"]
+[ext_resource type="PackedScene" uid="uid://27epvltcoh7" path="res://components/gui.tscn" id="3_5cx1r"]
+[ext_resource type="PackedScene" uid="uid://chye2alwyn5fo" path="res://player/player.tscn" id="3_teg2x"]
+
+[sub_resource type="Environment" id="Environment_6x7wh"]
+background_mode = 3
+glow_enabled = true
+glow_levels/1 = 1.0
+glow_levels/2 = 1.0
+glow_levels/3 = 0.0
+glow_levels/4 = 0.1
+glow_levels/5 = 0.0
+glow_normalized = true
+glow_intensity = 0.7
+glow_strength = 0.8
+glow_blend_mode = 1
+glow_hdr_threshold = 1.1
+
+[node name="Level3Graphics" type="Node2D"]
+script = ExtResource("1_dyf42")
+level = 3
+level_name = "Graphics"
+
+[node name="ParallaxBackground" parent="." instance=ExtResource("2_eccph")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6x7wh")
+
+[node name="GUI" parent="." instance=ExtResource("3_5cx1r")]
+
+[node name="Player" parent="." instance=ExtResource("3_teg2x")]
+
+[node name="EnemySpawn" type="Timer" parent="."]
+wait_time = 30.0
+autostart = true
+
+[node name="AsteroidSpawn" type="Timer" parent="."]
+wait_time = 30.0
+autostart = true

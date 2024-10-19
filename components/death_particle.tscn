@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://y2qm4py2hvjt"]
+
+[ext_resource type="Script" path="res://components/death_particle.gd" id="1_sccpp"]
+
+[sub_resource type="Curve" id="Curve_omkbt"]
+min_value = -360.0
+max_value = 360.0
+_data = [Vector2(0.244898, 11.9765), 0.0, 0.0, 0, 0, Vector2(1, 7.39728), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="DeathParticle" type="CPUParticles2D"]
+self_modulate = Color(1.8, 1.8, 1.8, 1)
+emitting = false
+amount = 200
+lifetime = 5.0
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 16.0
+gravity = Vector2(0, 0)
+angular_velocity_min = 10.0
+angular_velocity_max = 50.0
+angular_velocity_curve = SubResource("Curve_omkbt")
+radial_accel_min = 50.0
+radial_accel_max = 200.0
+angle_min = -45.0
+angle_max = 45.0
+scale_amount_min = 5.0
+scale_amount_max = 7.0
+hue_variation_min = -0.1
+hue_variation_max = 0.1
+script = ExtResource("1_sccpp")
+
+[connection signal="finished" from="." to="." method="_on_finished"]
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]

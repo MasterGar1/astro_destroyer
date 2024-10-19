@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://dkfc1xao5b3py"]
+
+[ext_resource type="PackedScene" uid="uid://d08uwni07obsl" path="res://enemy/enemy.tscn" id="1_4ejmx"]
+[ext_resource type="Texture2D" uid="uid://cnfnknkuw0g5d" path="res://textures/enemy_crusher.png" id="2_1qhn1"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m1jj3"]
+radius = 18.0
+height = 68.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0g2vb"]
+radius = 26.0
+height = 76.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0uhtx"]
+radius = 265.153
+
+[node name="Crusher" instance=ExtResource("1_4ejmx")]
+speed = 7000
+damage = 2
+bullet_speed = 200
+bullet_life = 300
+avoid_range = 100
+attack_cooldown = 6.0
+health = 3
+
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(0, 7)
+texture = ExtResource("2_1qhn1")
+
+[node name="CollisionShape2D" parent="." index="2"]
+rotation = 1.57079
+shape = SubResource("CapsuleShape2D_m1jj3")
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource("CapsuleShape2D_0g2vb")
+
+[node name="CollisionShape2D" parent="AttackRange" index="0"]
+shape = SubResource("CircleShape2D_0uhtx")
+
+[editable path="Hurtbox"]

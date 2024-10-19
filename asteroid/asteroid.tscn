@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://dpfqfcpiu1jte"]
+
+[ext_resource type="Script" path="res://asteroid/asteroid.gd" id="1_ppq6x"]
+[ext_resource type="PackedScene" uid="uid://d1syu1ftcjrhk" path="res://components/hurtbox.tscn" id="2_b6i3a"]
+[ext_resource type="Texture2D" uid="uid://ct6uvfbhlfybx" path="res://icon.svg" id="2_dlujt"]
+[ext_resource type="Shader" path="res://shaders/asteroid.gdshader" id="2_wohcq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rym8b"]
+shader = ExtResource("2_wohcq")
+shader_parameter/outline_color = Color(0.371094, 0.237845, 0.14061, 1)
+shader_parameter/progress = 1.0
+shader_parameter/width = 0.006
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ljfxh"]
+radius = 69.1158
+
+[node name="Asteroid" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 7
+gravity_scale = 0.0
+script = ExtResource("1_ppq6x")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_rym8b")
+texture = ExtResource("2_dlujt")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+material = SubResource("ShaderMaterial_rym8b")
+color = Color(0.678431, 0.568627, 0.403922, 1)
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+
+[node name="Hurtbox" parent="." instance=ExtResource("2_b6i3a")]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource("CircleShape2D_ljfxh")
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+
+[editable path="Hurtbox"]

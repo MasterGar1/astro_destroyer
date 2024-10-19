@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://bc2161mss4f0r"]
+
+[ext_resource type="Script" path="res://levels/level_3_graphics.gd" id="1_dyf42"]
+[ext_resource type="PackedScene" uid="uid://bnovupptegl5q" path="res://components/parallax_background.tscn" id="2_eccph"]
+[ext_resource type="PackedScene" uid="uid://chye2alwyn5fo" path="res://player/player.tscn" id="3_teg2x"]
+
+[sub_resource type="Environment" id="Environment_6x7wh"]
+background_mode = 3
+glow_enabled = true
+glow_normalized = true
+
+[node name="Level3Graphics" type="Node2D"]
+script = ExtResource("1_dyf42")
+level = 3
+level_name = "Graphics"
+
+[node name="ParallaxBackground" parent="." instance=ExtResource("2_eccph")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6x7wh")
+
+[node name="Player" parent="." instance=ExtResource("3_teg2x")]
+
+[node name="EnemySpawn" type="Timer" parent="."]
+wait_time = 30.0
+autostart = true
+
+[node name="AsteroidSpawn" type="Timer" parent="."]
+wait_time = 30.0
+autostart = true

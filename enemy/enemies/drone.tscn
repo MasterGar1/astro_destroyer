@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://bkvoycqrayr1"]
+
+[ext_resource type="PackedScene" uid="uid://d08uwni07obsl" path="res://enemy/enemy.tscn" id="1_mq3s2"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8bife"]
+radius = 24.0
+height = 48.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a7u81"]
+radius = 28.0
+height = 74.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_goxrs"]
+radius = 381.425
+
+[node name="Drone" instance=ExtResource("1_mq3s2")]
+
+[node name="CollisionShape2D" parent="." index="2"]
+shape = SubResource("CapsuleShape2D_8bife")
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource("CapsuleShape2D_a7u81")
+
+[node name="CollisionShape2D" parent="AttackRange" index="0"]
+shape = SubResource("CircleShape2D_goxrs")
+
+[editable path="Hurtbox"]

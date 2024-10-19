@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnovupptegl5q"]
+
+[ext_resource type="Texture2D" uid="uid://bcp6oi0verqtm" path="res://backgrounds/Nebula Blue.png" id="1_g1aib"]
+[ext_resource type="Texture2D" uid="uid://dv4n1mg5kegth" path="res://backgrounds/Stars Small_1.png" id="2_kbbdn"]
+[ext_resource type="Texture2D" uid="uid://p3fnwq4e4rof" path="res://backgrounds/Stars-Big_1_2_PC.png" id="3_vc3e7"]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+
+[node name="Sky" type="ParallaxLayer" parent="."]
+motion_mirroring = Vector2(4096, 4096)
+
+[node name="Sprite2D" type="Sprite2D" parent="Sky"]
+texture = ExtResource("1_g1aib")
+centered = false
+
+[node name="Stars" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(4096, 4096)
+
+[node name="Sprite2D" type="Sprite2D" parent="Stars"]
+texture = ExtResource("2_kbbdn")
+centered = false
+
+[node name="Stars2" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.7, 0.7)
+motion_mirroring = Vector2(4096, 4096)
+
+[node name="Sprite2D" type="Sprite2D" parent="Stars2"]
+texture = ExtResource("3_vc3e7")
+centered = false

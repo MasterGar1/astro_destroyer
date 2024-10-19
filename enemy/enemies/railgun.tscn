@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://c8tvq4i3j175j"]
+
+[ext_resource type="PackedScene" uid="uid://d08uwni07obsl" path="res://enemy/enemy.tscn" id="1_8cg1c"]
+[ext_resource type="Texture2D" uid="uid://gh687y4uejg3" path="res://textures/enemy_railgun.png" id="2_fr035"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ttpb5"]
+radius = 16.0
+height = 64.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_imgnp"]
+radius = 20.0
+height = 104.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nm7ow"]
+radius = 646.003
+
+[node name="Railgun" instance=ExtResource("1_8cg1c")]
+speed = 3000
+damage = 2
+bullet_speed = 700
+bullet_life = 1000
+avoid_range = 500
+attack_cooldown = 12.0
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_fr035")
+
+[node name="CPUParticles2D" parent="." index="1"]
+position = Vector2(0, 42)
+
+[node name="CollisionShape2D" parent="." index="2"]
+shape = SubResource("CapsuleShape2D_ttpb5")
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+rotation = 0.0
+shape = SubResource("CapsuleShape2D_imgnp")
+
+[node name="CollisionShape2D" parent="AttackRange" index="0"]
+shape = SubResource("CircleShape2D_nm7ow")
+
+[editable path="Hurtbox"]

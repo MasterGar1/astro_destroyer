@@ -1,0 +1,93 @@
+[gd_scene load_steps=12 format=3 uid="uid://d08uwni07obsl"]
+
+[ext_resource type="Texture2D" uid="uid://dt8pomvcxbsad" path="res://textures/enemy_drone.png" id="1_b8rf4"]
+[ext_resource type="Script" path="res://enemy/enemy.gd" id="1_ud3lb"]
+[ext_resource type="PackedScene" uid="uid://d1syu1ftcjrhk" path="res://components/hurtbox.tscn" id="2_4nks7"]
+[ext_resource type="Script" path="res://components/attack_range.gd" id="4_3qtt1"]
+[ext_resource type="AudioStream" uid="uid://bokc6r5rrw8d6" path="res://sfx/shoot.wav" id="6_e8c8a"]
+[ext_resource type="AudioStream" uid="uid://btglaaq0q2bi" path="res://sfx/hurt.wav" id="6_fiiud"]
+
+[sub_resource type="Curve" id="Curve_trme0"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.503914), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_jy52u"]
+colors = PackedColorArray(0.890625, 0.177429, 0.729042, 1, 0.804688, 0, 0, 1)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gnsvt"]
+radius = 20.0
+height = 40.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tg44l"]
+radius = 27.0
+height = 56.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v6ui7"]
+radius = 317.077
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_ud3lb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0.296875, 0.296875, 1)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_b8rf4")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+show_behind_parent = true
+position = Vector2(0, 27)
+amount = 20
+emission_shape = 1
+emission_sphere_radius = 12.0
+gravity = Vector2(0, 50)
+radial_accel_min = 30.0
+radial_accel_max = 60.0
+damping_min = 10.0
+damping_max = 30.0
+angle_min = -30.0
+angle_max = 30.0
+scale_amount_min = 4.0
+scale_amount_max = 7.0
+scale_amount_curve = SubResource("Curve_trme0")
+color_ramp = SubResource("Gradient_jy52u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_gnsvt")
+debug_color = Color(0.972651, 0, 0.439547, 0.42)
+
+[node name="Hurtbox" parent="." instance=ExtResource("2_4nks7")]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_tg44l")
+
+[node name="AttackRange" type="Area2D" parent="."]
+show_behind_parent = true
+collision_layer = 0
+monitorable = false
+script = ExtResource("4_3qtt1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
+show_behind_parent = true
+shape = SubResource("CircleShape2D_v6ui7")
+debug_color = Color(0, 0, 0, 0.419608)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="Shoot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_e8c8a")
+
+[node name="Hurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_fiiud")
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="body_entered" from="AttackRange" to="AttackRange" method="_on_body_entered"]
+[connection signal="body_exited" from="AttackRange" to="AttackRange" method="_on_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+
+[editable path="Hurtbox"]
