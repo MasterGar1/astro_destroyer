@@ -3,7 +3,7 @@ class_name Powerup
 
 @onready var sprite := $Sprite2D
 
-@export var powerup_id : int
+@export var powerup_id : int = 0
 
 func _ready() -> void:
 	powerup_id = randi_range(0, 4)

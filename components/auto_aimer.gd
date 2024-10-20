@@ -1,6 +1,6 @@
 extends Area2D
 
-var entities_within : Array[Node2D]
+var entities_within : Array[Node2D] = []
 
 func get_closest_pos() -> Vector2:
 	var pos : Vector2 = get_parent().position

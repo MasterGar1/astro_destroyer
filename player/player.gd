@@ -1,12 +1,12 @@
 extends CharacterBody2D
 class_name Player
 #Onready
-@onready var shoot_timer = $Timer
-@onready var sprite = $Sprite2D
-@onready var animation_player = $AnimationPlayer
-@onready var auto_aimer = $AutoAimer
-@onready var camera = $Camera2D
-@onready var particles = $CPUParticles2D
+@onready var shoot_timer := $Timer
+@onready var sprite := $Sprite2D
+@onready var animation_player := $AnimationPlayer
+@onready var auto_aimer := $AutoAimer
+@onready var camera := $Camera2D
+@onready var particles := $CPUParticles2D
 #Speed
 @export var max_speed : int = 400
 @export var acceleration : int = 200
@@ -16,24 +16,24 @@ class_name Player
 @export var rotation_acceleration : int = 2
 @export var rotation_damping : int = 4
 #Stats
-@export var current_health : int  = 3
 @export var base_health : int = 3
 @export var base_damage : int = 1
 @export var base_proj_speed : int = 500
 @export var base_lifespan : int = 700
-@export var base_attack_cooldown : float = 1.0
+@export var base_attack_cooldown : float = 0.8
 @export var base_proj_amount : int = 1
 #Preloads
-@export var bullet_scene = preload("res://components/bullet.tscn")
-@export var death_explode = preload("res://components/death_particle.tscn")
+@export var bullet_scene : PackedScene = preload("res://components/bullet.tscn")
+@export var death_explode : PackedScene = preload("res://components/death_particle.tscn")
 #Reuseables
 var current_speed : float = 0
 var current_rotation_speed : float = 0
 var can_shoot : bool = true
-
+#Signals
 signal take_damage()
+signal powerup()
 
-func _ready():
+func _ready() -> void:
 	setup_world()
 	shoot_timer.wait_time = base_attack_cooldown
 
@@ -57,7 +57,7 @@ func _physics_process(delta : float) -> void:
 	if Input.is_action_pressed("up"):
 		current_speed = min(current_speed + acceleration * delta, max_speed)
 	elif Input.is_action_pressed("down"):
-		current_speed = min(current_speed - float(acceleration) / 10 * delta, float(max_speed) / 10)
+		current_speed = min(current_speed - float(acceleration) * delta / 2, float(max_speed) / 20)
 	else:
 		current_speed = max(current_speed - deceleration * delta, 0)
 	
@@ -88,8 +88,7 @@ func shoot() -> void:
 func gain_powerup(id : int) -> void:
 	match id:
 		0: #HP
-			base_health += 1
-			current_health += 1
+			base_health += 2
 			take_damage.emit()
 		1: #Damage
 			base_damage += 1
@@ -108,6 +107,7 @@ func gain_powerup(id : int) -> void:
 	tween.tween_property(sprite, "self_modulate", Color.WHITE, 0.5)
 	tween.play()
 	$Powerup.play()
+	powerup.emit()
 			
 func setup_world() -> void:
 	match Global.current_level:
@@ -129,19 +129,18 @@ func _on_hurtbox_area_entered(bullet : Bullet) -> void:
 		return
 	camera.apply_shake()
 	velocity /= 2
-	current_health -= bullet.damage
+	base_health -= bullet.damage
 	animation_player.call_deferred("play", "take_damage")
 	
 	take_damage.emit()
 	bullet.queue_free()
-	if current_health <= 0:
+	if base_health <= 0:
 		if Global.current_level >= 3:
 			var particle : CPUParticles2D = death_explode.instantiate()
 			particle.position = position
 			particle.emitting = true
 			get_parent().add_child(particle)
-			if Global.current_level >= 4:
-					get_parent().explode_ship.play()
+			get_parent().explode_ship.play()
 		camera.reparent(get_tree().current_scene)
 		camera.position = position
 		Global.is_player_dead = true
@@ -150,7 +149,6 @@ func _on_hurtbox_area_entered(bullet : Bullet) -> void:
 func _to_string() -> String:
 	var d : Dictionary = {
 		"[color=#2cff00]Health" : base_health,
-		"[color=#24ce00]Current Health" : current_health,
 		"[color=#ff4a4a]Damage" : base_damage,
 		"[color=#26a9ff]Proj Speed" : base_proj_speed,
 		"[color=#ffe727]Cooldown" : base_attack_cooldown,

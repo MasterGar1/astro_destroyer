@@ -8,13 +8,13 @@ var scenes : Array[PackedScene] = [
 	preload("res://levels/level4updates.tscn")
 ]
 
-var current_level : int = 0
 const DEBUG : bool = false
-var spawing_enabled : bool = true
+const WINNING_SCORE : int = 1000
+const spawing_enabled : bool = true
 
+var current_level : int = -1
 var is_player_dead : bool = false
 var score : int = 0
-const WINNING_SCORE : int = 1000
 
 var powerup_colors : Array[Color] = [
 	Color(0.172, 1, 0), Color(1, 0.289, 0.289), Color(0.148, 0.661, 1), Color(1, 0.907, 0.152), Color(0.611, 0.184, 1)
@@ -38,6 +38,10 @@ func refresh_level() -> void:
 		
 func enemy_death() -> void:
 	score += 150
+	score_update.emit()
+	
+func boss_death() -> void:
+	score += 1000
 	score_update.emit()
 	
 func asteroid_destroy(size : float) -> void:

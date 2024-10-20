@@ -5,12 +5,13 @@ enum state {
 	CHASE, ATTACK
 }
 
-@onready var sprite = $Sprite2D
-@onready var attack_range = $AttackRange
-@onready var timer = $Timer
-@onready var particles = $CPUParticles2D
-@export var bullet_scene = preload("res://components/bullet.tscn")
-@export var death_explode = preload("res://components/death_particle.tscn")
+@onready var sprite := $Sprite2D
+@onready var attack_range := $AttackRange
+@onready var timer := $Timer
+@onready var particles := $CPUParticles2D
+
+@export var bullet_scene : PackedScene = preload("res://components/bullet.tscn")
+@export var death_explode : PackedScene = preload("res://components/death_particle.tscn")
 @export var speed : int = 5000
 @export var damage: int = 1
 @export var bullet_speed : int = 300
@@ -19,6 +20,7 @@ enum state {
 @export var avoid_range : int = 200
 @export var attack_cooldown : float = 3
 @export var health : int = 1
+@export var is_boss : bool = false
 
 var current_state : state = state.CHASE
 var is_on_cooldown : bool = false
@@ -93,8 +95,10 @@ func _on_hurtbox_area_entered(bullet : Bullet) -> void:
 			particle.color = Color(1, 0, 0)
 			particle.position = position
 			particle.emitting = true
-			Global.enemy_death()
+			if is_boss:
+				Global.boss_death()
+			else:
+				Global.enemy_death()
 			get_parent().add_child(particle)
-			if Global.current_level >= 4:
-				get_parent().explode_ship.play()
+			get_parent().explode_ship.play()
 		queue_free()

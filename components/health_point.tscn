@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://da66xrwh0xpoo"]
+
+[ext_resource type="Texture2D" uid="uid://1j5iycy0tv61" path="res://textures/hp_bar.png" id="1_e6h1o"]
+
+[node name="HP" type="TextureRect"]
+texture = ExtResource("1_e6h1o")

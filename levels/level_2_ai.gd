@@ -5,10 +5,10 @@ const SPAWN_DISTANCE_MIN : int = 1000
 const MAX_SPAWN : int = 6
 const ASTEROID_MAX_SPAWN : int = 3
 
-@export var enemy = preload("res://enemy/enemies/drone.tscn")
-@export var asteroid = preload("res://asteroid/asteroid.tscn")
+@export var enemy : PackedScene = preload("res://enemy/enemies/drone.tscn")
+@export var asteroid : PackedScene= preload("res://asteroid/asteroid.tscn")
 
-func _ready():
+func _ready() -> void:
 	super()
 	for i in range(3):
 		spawn()

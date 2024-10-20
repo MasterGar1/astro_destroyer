@@ -1,8 +1,8 @@
 extends CanvasLayer
 
-@onready var backgorund = $ColorRect
-@onready var level = $Label
-@onready var level_name = $Label2
+@onready var backgorund := $ColorRect
+@onready var level := $Label
+@onready var level_name := $Label2
 
 func _ready() -> void:
 	get_tree().paused = true

@@ -1,12 +1,13 @@
 extends Area2D
 class_name Bullet
 
-@onready var sprite = $Sprite2D
-@onready var particles = $CPUParticles2D
+@onready var sprite := $Sprite2D
+@onready var particles := $CPUParticles2D
 @export var speed : int = 500
 @export var lifespan : int = 700
 @export var is_player_bullet : bool = true
 @export var damage : int = 0
+
 var direction : Vector2 =  Vector2.ZERO
 var start_pos : Vector2 = Vector2.ZERO
 

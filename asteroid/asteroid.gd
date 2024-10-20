@@ -8,11 +8,11 @@ class_name Asteroid
 @export var max_speed : int = 40
 var speed : int = 0
 
-@onready var hurtbox = $Hurtbox
-@onready var collision = $CollisionShape2D
-@onready var sprite = $Sprite2D
-@onready var poly = $Polygon2D
-@export var death_explode = preload("res://components/asteroid_explode.tscn")
+@onready var hurtbox := $Hurtbox
+@onready var collision := $CollisionShape2D
+@onready var sprite := $Sprite2D
+@onready var poly := $Polygon2D
+@export var death_explode : PackedScene = preload("res://components/asteroid_explode.tscn")
 
 var rng : RandomNumberGenerator = RandomNumberGenerator.new()
 
@@ -60,8 +60,7 @@ func _on_hurtbox_area_entered(bullet : Bullet) -> void:
 			particle.emitting = true
 			Global.asteroid_destroy(size)
 			get_parent().add_child(particle)
-			if Global.current_level >= 4:
-				get_parent().explode_asteroid.play()
+			get_parent().explode_asteroid.play()
 		queue_free()
 	
 func generate_polygon(num_vertices: int, spikiness: float = 0.7, avg_radius: float = 80, irregularity: float = 0, center: Vector2 = Vector2.ZERO) -> Array[Vector2]:
